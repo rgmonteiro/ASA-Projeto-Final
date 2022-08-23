@@ -3,11 +3,11 @@ Projeto ASA - Projeto Final Repositório destinado ao Projeto da disciplina de A
 
 ** Tecnologias utilizadas:
 
-Docker
-Shell Script
-MySQL
-PHP
-CSS3
-HTML
-BIND9
-Apache
+  Docker
+  Shell Script
+  MySQL
+  PHP
+  CSS3
+  HTML
+  BIND9
+  Apache
