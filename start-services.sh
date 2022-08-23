@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Digite sua rede local com o prefixo de rede ao final do arquivo onde tem SUAREDELOCAL. Tecle <Enter> (Ex: 192.168.0.0/24)> " ; read rede
-cd servidor-email/smtp_postfix
+cd servidor-email/smtp
 nano main.cf
 rede=$(cat main.cf | grep mynetworks | tail -n 1 | cut -d " " -f 4)
 
