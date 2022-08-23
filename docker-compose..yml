@@ -1,0 +1,73 @@
+version: '3.9'
+services:
+    
+  web:
+    build:
+      context: ./web
+    image: web
+    container_name: web
+    restart: always
+    tty: true
+    networks:
+      - sp-network
+
+  servidor-email:
+    build: ./servidor-email
+    image: servidor-email
+    container_name: servidor-email
+    ports:
+      - "25:25/tcp"
+      - "100:100/tcp"
+      - "143:143/tcp"
+      - "587:587/tcp"
+      - "993:993/tcp"
+      - "995:995/tcp"
+    networks:
+      - sp-network
+
+  webmail:
+    build:
+      context: ./webmail
+    image: webmail
+    container_name: webmail
+    restart: always
+    tty: true
+    volumes:
+      - ./webmail/rainloop:/var/www/html/rainloop
+    depends_on:
+      - servidor-email
+    networks:
+      - sp-network
+
+  proxy:
+    build:
+      context: ./proxy
+    image: proxy
+    container_name: proxy
+    restart: always
+    tty: true
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+      - webmail
+    networks:
+      - sp-network
+
+  dns:
+    build: ./dns
+    image: dns
+    container_name: ns1
+    restart: always
+    tty: true
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    volumes:
+      - ./dns/primary:/etc/bind
+    networks:
+      - sp-network
+
+networks:
+  sp-network:
+    driver: bridge
